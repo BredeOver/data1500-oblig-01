@@ -8,7 +8,9 @@ Det skal bli gitt en mulighet til å levere på nytt senest **søndag 15. mars 2
 
 Skriv den skriftlige / modelleringsdelen av besvarelsen i BESVARELSE-MAL.md. SQL-setnigner og SQL-spørringer skrives i egne filer i mappene `init-scripts` og `test-scripts`.
 
-Under arbeidet med oppgaven kan du diskutere faglige spørsmål med medstudenter og eventuelt andre personer, men din besvarelse skal være individuell. Du må ikke dele din besvarelse med andre studenter og du må selv sørge for at oppgaven ikke er synlig for alle. Det er anbefalt å lage en privat Github-repository og invitere din TA som samarbeidspartner. Se instruksjoner, for hvordan du kan gjøre en offentlig repository til en private repository i din konto https://gist.github.com/devinschumacher/c0d45bc626999f19df5429c5cd549a8c Ta kontakt med TA eller lærer, hvis du har spørsmål angående dette.
+Lever besvarelsen som en lenke til din (private) Github-repository i Canvas oppgaver (se kunngjøring og oppgaveteksten i Canvas).
+
+Under arbeidet med oppgaven kan du diskutere faglige spørsmål med medstudenter og eventuelt andre personer, men din besvarelse skal være individuell. Du må ikke dele din besvarelse med andre studenter og du må selv sørge for at oppgaven ikke er synlig for alle. Det er anbefalt å lage en privat Github-repository og invitere din TA som samarbeidspartner. Se instruksjoner, for hvordan du kan gjøre en offentlig repository til en private repository i din konto i GUIDE-PRIVAT-REPO.md (KI-generert). Ta kontakt med TA eller lærer, hvis du har spørsmål angående dette.
 
 Oppgaveteksten og alle instruksjonene finnes i filen OPPGAVE.md. 
 
