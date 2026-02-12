@@ -6,7 +6,7 @@ Her følger rubrikker for hver deloppgave i den reviderte obligatoriske oppgaven
 
 ### Oppgave 1.1: Entiteter og attributter
 
-*   **3 poeng:** Alle sentrale entiteter (Sykkel, Stasjon, Lås, Kunde, Utleie) er identifisert. Relevante attributter er definert for hver entitet.
+*   **3 poeng:** Alle sentrale entiteter er identifisert. Relevante attributter er definert for hver entitet.
 *   **2 poeng:** De fleste sentrale entiteter er identifisert, men noen mangler eller er slått sammen. De fleste relevante attributter er definert.
 *   **1 poeng:** Noen entiteter er identifisert, men det er vesentlige mangler. Få eller irrelevante attributter er definert.
 *   **0 poeng:** Ikke besvart eller helt misforstått.
@@ -88,7 +88,7 @@ Her følger rubrikker for hver deloppgave i den reviderte obligatoriske oppgaven
 
 ### Oppgave 4.3: Datastrukturer for logging
 
-*   **3 poeng:** En passende datastruktur (f.eks. heap-fil, LSM-tree) er foreslått, med en god begrunnelse knyttet til skrive- og leseoperasjoner.
+*   **3 poeng:** En passende datastruktur er foreslått, med en god begrunnelse knyttet til skrive- og leseoperasjoner.
 *   **2 poeng:** En mindre egnet datastruktur er foreslått, eller begrunnelsen er svak.
 *   **1 poeng:** Svaret er irrelevant eller viser liten forståelse.
 *   **0 poeng:** Ikke besvart eller helt misforstått.
@@ -109,8 +109,8 @@ Her følger rubrikker for hver deloppgave i den reviderte obligatoriske oppgaven
 
 ## Del 5: SQL-spørringer og Automatisk Testing
 
-*   **3 poeng:** Alle spørringene er korrekte og består de automatiske testene.
-*   **2 poeng:** De fleste spørringene er korrekte, men noen feiler i de automatiske testene.
+*   **3 poeng:** Alle spørringene er korrekte.
+*   **2 poeng:** De fleste spørringene er korrekte, men noen feiler.
 *   **1 poeng:** Få av spørringene er korrekte.
 *   **0 poeng:** Ikke besvart eller helt misforstått.
 
@@ -154,7 +154,7 @@ Ved vurdering av besvarelsene, vær oppmerksom på følgende:
 
 ### 1. Automatisk testing av SQL-spørringer
 
-For Del 5 (SQL-spørringer) kan læringsassistenter bruke det automatiske test-skriptet for å validere studentenes løsninger:
+For Del 5 (SQL-spørringer) kan læringsassistenter bruke det automatiske test-skriptet for å validere studentenes løsninger (forutsetter en spesifikk modell, så tvilsomt om det vil fungere på de fleste besvarelsene, siden studentene kan velge navn på entiteter og attributer fritt, samt å velge primær- og fremmed-nøkler fritt):
 
 ```bash
 docker-compose exec postgres psql -U admin -d oblig01 -f test-scripts/test-queries.sql
@@ -176,26 +176,14 @@ Vurder om studenten har dokumentert sine valg og begrunnelser på en klar og for
 
 ### 5. Funksjonalitet
 
-For SQL-skriptene, test om de faktisk fungerer som forventet. Bruk gjerne automatiserte tester der det er mulig.
+For SQL-skriptene, test om de faktisk fungerer som forventet. Bruk gjerne automatiserte tester der det er mulig (tvilsomt om det vil fungere).
 
 ### 6. Kreativitet
 
 Gi uttelling for kreative løsninger, så lenge de er faglig forsvarlige. Det finnes ofte flere riktige måter å løse et problem på.
 
-### 7. Forbedringer fra original versjon
+### 7. Bonusoppgaver
 
-Den reviderte versjonen av oppgaven inkluderer følgende forbedringer:
-
-- **Oppgave 1.2:** Nå kreves det `CHECK`-constraints for dataintegritet
-- **Oppgave 1.5:** Ny oppgave om normalisering
-- **Oppgave 4.1:** Gitte tall for utleierate (forenkler oppgaven)
-- **Oppgave 4.2:** Ferdig CSV-fil i `data/`-mappen (forenkler oppgaven)
-- **Oppgave 4.3:** Hint om relevante datastrukturer
-- **Del 5:** Automatisk test-script for validering av SQL-spørringer
-- **Del 6:** Valgfrie bonusoppgaver for de sterkeste studentene
-
-### 8. Bonusoppgaver
-
-Bonusoppgavene teller ikke mot bestått-kravet, men kan gi uttelling for en bedre karakter i emnet totalt sett. Vurder bonusoppgavene strengt, og gi kun full poengsum til svært gode løsninger.
+Bonusoppgavene teller ikke mot bestått-kravet. Vurder bonusoppgavene, hvis du har tid til det. Hvis du vurderer bonusoppgavene vurder de strengt, og gi kun full poengsum til svært gode løsninger.
 
 Ved tvil om vurdering, diskuter med faglærer eller andre læringsassistenter for å sikre konsistent vurdering på tvers av alle besvarelser.
