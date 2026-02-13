@@ -1,10 +1,10 @@
 # Besvarelse - Refleksjon og Analyse
 
-**Student:** [Ditt navn]
+**Student:** Brede Overhalden
 
-**Studentnummer:** [Ditt studentnummer]
+**Studentnummer:** brove3385
 
-**Dato:** [Innleveringsdato]
+**Dato:** 01.03.26
 
 ---
 
@@ -14,11 +14,19 @@
 
 **Identifiserte entiteter:**
 
-[Skriv ditt svar her - list opp alle entitetene du har identifisert]
+Kunde, sykkel, stasjon, lås og utleie
 
 **Attributter for hver entitet:**
 
-[Skriv ditt svar her - list opp attributtene for hver entitet]
+Kunde: kunde_id, mobilnummmer, fornavn, etternavn og epost
+
+Sykkel: sykkel_id, status
+
+Stasjon: stasjon_id, sted
+
+Lås: lås_id, stasjon_id, status
+
+Utleie: utleie_id, kunde_id, sykkel_id, utlevert_id, utlevert_tid, innlevert_tid, innlevert_stasjon_id, beløp
 
 ---
 
@@ -26,7 +34,11 @@
 
 **Valgte datatyper og begrunnelser:**
 
-[Skriv ditt svar her - forklar hvilke datatyper du har valgt for hver attributt og hvorfor]
+Kunde:
+int kunde_id, varchar(n) mobilnummer, varchar(n) fornavn, varchar(n) etternavn, varchar(n) epost
+
+Sykkel:
+int sykkel_id, 
 
 **`CHECK`-constraints:**
 
