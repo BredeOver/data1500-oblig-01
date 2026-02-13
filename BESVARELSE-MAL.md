@@ -22,7 +22,7 @@ Kunde: kunde_id, mobilnummmer, fornavn, etternavn og epost
 
 Sykkel: sykkel_id, status
 
-Stasjon: stasjon_id, sted
+Stasjon: stasjon_id, adresse
 
 Lås: lås_id, stasjon_id, status
 
@@ -34,19 +34,56 @@ Utleie: utleie_id, kunde_id, sykkel_id, utlevert_id, utlevert_tid, innlevert_tid
 
 **Valgte datatyper og begrunnelser:**
 
-Kunde:
-int kunde_id, varchar(n) mobilnummer, varchar(n) fornavn, varchar(n) etternavn, varchar(n) epost
+`Kunde:`
+int kunde_id, varchar(15) mobilnummer, varchar(50) fornavn, varchar(50) etternavn, varchar(100) epost.
+Jeg har brukt varchar fordi teksten varierer i lengde fra kunde til kunde og int for id da det er
+effektivt og egner seg for primær- og fremmednøkler.
 
-Sykkel:
-int sykkel_id, 
+`Sykkel:`
+int sykkel_id, boolean status. Int for id da det er effektivt og egner seg for primær- og fremmednøkler.
+Bruker boolean for status på sykkel fordi vi kun trenger to tilstander tilgjengelig (true) og ikke tilgjenglig (false)
+
+`Stasjon:`
+int stasjon_id, varchar(100) adresse. Jeg har brukt int for id fordi det er effektivt og egner seg som primær- og
+fremmednøkkel. Bruker varchar for adresse fordi lengden varierer og feltet er tekst
+
+`Lås:`
+int lås_id, int stasjon_id, boolean status. Jeg har brukt int for ID-er fordi det er effektivt og egner seg som
+primær- og fremmednøkler. Bruker boolean for status fordi vi kun trenger to tilstander låst (true) og åpen/ulåst (false)
+
+`Utleie:`
+int utleie_id, int kunde_id, int sykkel_id, int utlevert_id, timestamp utlevert_tid
+timestamp innlevert_tid, int innlevert_stasjon_id, numeric(10,2) beløp. 
+Bruker int for ID-er fordi det er effektivt og egner seg som primær- og fremmednøkler. Timestamp egner seg bra for ulevert
+tid og innlevert tid fordi vi må måle tidsintervallet. Bruker numeric for beløp de dette gir presise bereginger av tall
+satt 10 for totalt antall siffer og 2 for antall siffer etter komma. Numeric hindrer avrundingsfeil som kan skje ved bruk av float f.eks.
 
 **`CHECK`-constraints:**
+```
+Kunde:
+CHECK (mobilnummer ~ '^[0-9]{8,15}$') //Sikrer at mobilnummeret betår av kun tall og ikke er for kort/langt
+CHECK (length(trim(fornavn)) > 0) //Hindrer at man lagrer tomme navn eller navn med bare mellomrom
+CHECK (length(trim(etternavn)) > 0) //Hindrer at man lagrer tomme navn eller navn med bare mellomrom
+CHECK (epost ~* '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$') //Sikrer standard x@y.z epost format
+```
+```
+Stasjon:
+CHECK (length(trim(sted)) > 0) // Hindrer at stasjonen registreres uten adresse
+```
+```
+Utleie:
+CHECK (beløp IS NULL OR beløp >= 0) //Sikrer at beløpet ikke kan være negativ og NULL tillates før utleien er avsluttet
+CHECK (innlevert_tid IS NULL OR innlevert_tid >= utlevert_tid) //Sikrer at en sykkel ikke leveres før den er hentet og NULL tilates så lenge det er aktivt utleie
+CHECK (
+  (innlevert_tid IS NULL AND innlevert_stasjon_id IS NULL)
+  OR
+  (innlevert_tid IS NOT NULL AND innlevert_stasjon_id IS NOT NULL)
+) // Dette sikrer mot halvferdige utleier. Begge ID-er må enten være NULL eller satt 
 
-[Skriv ditt svar her - list opp alle CHECK-constraints du har lagt til og forklar hvorfor de er nødvendige]
+```
 
 **ER-diagram:**
-
-[Legg inn mermaid-kode eller eventuelt en bildefil fra `mermaid.live` her]
+![img.png](img.png)
 
 ---
 
