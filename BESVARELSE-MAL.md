@@ -83,7 +83,8 @@ CHECK (
 ```
 
 **ER-diagram:**
-![img_1.png](img_1.png)
+
+![ER_diagram1.png](ER_diagram1.png)
 ---
 
 ### Oppgave 1.3: Primærnøkler
@@ -124,22 +125,50 @@ lokasjon da slipper vi å måtte endre på hele nøkkelstrukturen
 
 **Oppdatert ER-diagram:**
 
-![img_2.png](img_2.png)
+![ER_diagram2.png](ER_diagram2.png)
 ---
 
 ### Oppgave 1.4: Forhold og fremmednøkler
 
 **Identifiserte forhold og kardinalitet:**
 
-[Skriv ditt svar her - list opp alle forholdene mellom entitetene og angi kardinalitet]
+Kunde - utleie:
+```kunde ||--o{ utleie``` En kunde kan leie flere sykler over tid. Hvert utleie tilhører nøyaktig en kunde.
+
+Sykkel - utleie:
+```sykkel ||--o{ utleie``` En sykkel kan leies mange ganger over tid.. Hver utleie gjelder nøyaktig en sykkel.
+
+Stasjon - utleie (start):
+```stasjon ||--o{ utleie``` Utleie starter på en stasjon. Hver utleie starter på nøyaktig en stasjon.
+
+Stasjon - utleie (slutt):
+```stasjon ||--o{ utleie``` En utleie avsluttes på en stasjon. Hver utleie avsluttes på nøyaktig en stasjon.
+
 
 **Fremmednøkler:**
 
-[Skriv ditt svar her - list opp alle fremmednøklene og forklar hvordan de implementerer forholdene]
+I tabellen ```utleie``` har jeg følgende fremmednøkler:
+
+``kunde_id`` REFERENCES ```kunde(kunde_id)```. Dette kobler hver utleie til en spesifikk kunde. Dette implementerer forholdet
+en kunde kan ha mange utleier, men hver utleie tilhører bare en kunde.
+
+``sykkel_id`` REFERENCES ``sykkel(sykkel_id``. Da kobler man hver utleie til en sykkel. Dette implementerer forholdet en sykkel
+kan ha mange utlier over tid.
+
+``utlevert_stasjon_id `` REFERENCES ``stasjon(stasjon_id)``. Dette kobler utleien til stasjonen der den startet. Her implementerer
+man forhldet for stasjon - utleie for startstasjon.
+
+``innlevert_stasjon_id `` REFERENCES ``stasjon_id(stasjon_id)``. Her kobler man utleien til stasjonen der den avsluttes. Denne kan
+være NULL mens utleien er aktiv, og implementerer dermed at sluttstasjonen registreres først ved innlevering.
+
+I tabellen ``lås``:
+
+``stasjon_id`` REFERENCES ``stasjon(stasjon_id)``. Her kobler man hver lås til en stasjon. Dette implementerer forholdet en
+stasjon kan ha mange låser, men en lås tilhører bare en stasjon
 
 **Oppdatert ER-diagram:**
 
-![img.png](img.png)
+![ER_diagram3.png](ER_diagram3.png)
 
 ---
 
