@@ -176,19 +176,46 @@ stasjon kan ha mange låser, men en lås tilhører bare en stasjon
 
 **Vurdering av 1. normalform (1NF):**
 
-[Skriv ditt svar her - forklar om datamodellen din tilfredsstiller 1NF og hvorfor]
+Datamodellen min tilfredsstiller kravene som for å oppfylle 1NF. Datamodellen inneholder kun atomære verdier,
+alle verdiene i tabellen består kun av enkle datatyper som ``int, varchar, boolean, timestamp og numeric``. Det er
+ingen sammensatte verdier, jeg har f.eks skilt mellom fornavn og etternavn. Det er heller ingen flerverdiattributter
+datamodellen inneholder ingen lister eller flere verdier i samme celle. Datamodellen opprettholder også ingen relasjoner
+i relasjoner (nøstede tabeller), datamodellen er flat jeg har f.eks. splittet opp lås og stasjon i egne tabeller. Jeg knytter
+de sammen med en fremmednøkkel ``stasjon_id`` i tabellen lås isteden for at de skulle vært i samme tabell.
 
 **Vurdering av 2. normalform (2NF):**
 
-[Skriv ditt svar her - forklar om datamodellen din tilfredsstiller 2NF og hvorfor]
+For at en modell skal være på 2NF, må to krav være oppfylt:
+1. Den må allerede tilfredsstille 1NF (noe denne modellen gjør).
+2. Hvert ikke-primattributt (attributter som ikke er en del av primærnøkkelen) må være fullt funksjonelt avhengig av hele primærnøkkelen
+
+Datamodellen min så har alle tabellene enkle primærnøkler, nøkler bestående av kun en kolonne. Tabellen kunde har ```kunde_id```
+som primærnøkkel, alle andre data om kunden er avhengige av denne ID-en. sykkel har ``sykkel_id``som primærnøkkel
+og ``status`` er direkte knyttet til den spesifikke sykkelen. stasjon har ``stasjon_id`` som primærnøkkel og ``addresse``
+er knyttet til denne ID-en. lås har ```lås_id``` som primærnøkkel. ``stasjon_id`` og ``status`` er avhengige av den spesifikke
+lås ID-en. utleie har ``utleie_id`` som primærnøkkel. Alle andre attributter som ``beløp``,``utlevert_tid``,``innlevert_tid`` og 
+fremmednøklene er avhengig av denne ene utleie ID-en.
 
 **Vurdering av 3. normalform (3NF):**
 
-[Skriv ditt svar her - forklar om datamodellen din tilfredsstiller 3NF og hvorfor]
+Den tredje normalformen bygger på konseptet om transitiv avhengighet. For at datamodellen skal oppfylle 3NF så må den
+oppfylle:
+1. Den må oppfylle 2NF noe vi har allerede fastslått at datamoddellen gjør
+2. Det må ikke finnes noen transitive avhengigheter mellom ikke primattributter, det betyr en kolonne som ikke er en del av nøkkelen
+kun skal være avhengig av primærnøkkelen, og ikke av andre ikke-primattributter
+
+I datamodellen min så har de ulike tabellene ingen slike transitive avhengigheter og oppfyller 3NF fordi:
+1. ``kunde:`` ``mobilnummer, fornavn, etternavn og epost`` er alle direkte egenskaper ved kunden. Ingen av disse bestemmer
+logisk sett verdien til andre f.eks. etternavn bestemmer ikke hvileken epost man har.
+2. ``stasjon:`` innholder kun ``satsjon_id og addresse``. Siden det bare er ett ikke primattributt (addresse), 
+er det umulig å ha transitiv avhengighet her
+3. ``utleie:`` Her lagres selve informasjonen om utleieforholdet. Attributter som ``beløp, utlevert_tid og innlevert_tid``
+er alle direkte avhengige av den spesifikke utleie ID-en (utleie_id). Det er ingen avhengigheter mellom f.eks ``beløp og utlvert_stasjon_id``
+4. ``sykkel og lås`` Disse tabellene har kun enkle attributter som ``status`` som er direkte knyttet til deres primærnøkler.
 
 **Eventuelle justeringer:**
 
-[Skriv ditt svar her - hvis modellen ikke var på 3NF, forklar hvilke justeringer du har gjort]
+Modellen var på 3NF og ingen justeringer krevdes.
 
 ---
 
