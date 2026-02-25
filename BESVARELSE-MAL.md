@@ -178,7 +178,7 @@ stasjon kan ha mange låser, men en lås tilhører bare en stasjon
 **Vurdering av 1. normalform (1NF):**
 
 Datamodellen min tilfredsstiller kravene som for å oppfylle 1NF. Datamodellen inneholder kun atomære verdier,
-alle verdiene i tabellen består kun av enkle datatyper som ``int, varchar, boolean, timestamp og numeric``. Det er
+alle verdiene i tabellen består kun av enkle datatyper som ``serial, int, varchar, boolean, timestamp og numeric``. Det er
 ingen sammensatte verdier, jeg har f.eks skilt mellom fornavn og etternavn. Det er heller ingen flerverdiattributter
 datamodellen inneholder ingen lister eller flere verdier i samme celle. Datamodellen opprettholder også ingen relasjoner
 i relasjoner (nøstede tabeller), datamodellen er flat jeg har f.eks. splittet opp lås og stasjon i egne tabeller. Jeg knytter
@@ -211,7 +211,7 @@ logisk sett verdien til andre f.eks. etternavn bestemmer ikke hvileken epost man
 2. ``stasjon:`` innholder kun ``satsjon_id og addresse``. Siden det bare er ett ikke primattributt (addresse), 
 er det umulig å ha transitiv avhengighet her
 3. ``utleie:`` Her lagres selve informasjonen om utleieforholdet. Attributter som ``beløp, utlevert_tid og innlevert_tid``
-er alle direkte avhengige av den spesifikke utleie ID-en (utleie_id). Det er ingen avhengigheter mellom f.eks ``beløp og utlvert_stasjon_id``
+er alle direkte avhengige av den spesifikke utleie ID-en (utleie_id). Det er ingen avhengigheter mellom f.eks ``beløp og utlevert_stasjon_id``
 4. ``sykkel og lås`` Disse tabellene har kun enkle attributter som ``status`` som er direkte knyttet til deres primærnøkler.
 
 **Eventuelle justeringer:**
@@ -226,15 +226,15 @@ Modellen var på 3NF og ingen justeringer krevdes.
 
 **Plassering av SQL-skript:**
 
-[Bekreft at du har lagt SQL-skriptet i `init-scripts/01-init-database.sql`]
+Bekrefter at jeg har lagt inn SQL-skriptet i `init-scripts/01-init-database.sql`
 
 **Antall testdata:**
 
-- Kunder: [antall]
-- Sykler: [antall]
-- Sykkelstasjoner: [antall]
-- Låser: [antall]
-- Utleier: [antall]
+- Kunder: 5
+- Sykler: 100
+- Sykkelstasjoner: 5
+- Låser: 100
+- Utleier: 50
 
 ---
 

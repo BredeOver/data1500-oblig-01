@@ -55,14 +55,14 @@ CREATE TABLE utleie (
     utlevert_tid TIMESTAMP NOT NULL,
 
     innlevert_tid TIMESTAMP NULL,
-    innlevert_stasjon_id INT NOT NULL REFERENCES stasjon(stasjon_id),
+    innlevert_stasjon_id INT NULL REFERENCES stasjon(stasjon_id),
 
     belop NUMERIC NULL,
 
-    COONSTRAINT check_utleie_belop
-        CHECK (beløp IS NULL OR beløp >= 0)
+    CONSTRAINT check_utleie_belop
+        CHECK (belop IS NULL OR belop >= 0),
     CONSTRAINT check_utleie_tid
-        CHECK (innlevert_tid IS NULL OR innlevert_tid >= utlevert_tid)
+        CHECK (innlevert_tid IS NULL OR innlevert_tid >= utlevert_tid),
     CONSTRAINT check_utleie_innlevering
         CHECK (
             (innlevert_tid IS NULL AND innlevert_stasjon_id IS NULL)
@@ -78,8 +78,42 @@ CREATE TABLE utleie (
 
 
 -- DBA setninger (rolle: kunde, bruker: kunde_1)
+INSERT INTO kunde (mobilnummer, fornavn, etternavn, epost)
+SELECT
+    (90000000 + gs)::text,
+    'Fornavn' || gs,
+    'Etternavn' || gs,
+    'kunde' || gs || '@example.com'
+FROM generate_series(1, 5) gs;
 
+INSERT INTO sykkel (status)
+SELECT TRUE
+FROM generate_series(1, 100);
 
+INSERT INTO stasjon (addresse) VALUES
+('Sentrum Stasjon'),
+('Universitetet Stasjon'),
+('Grünerløkka Stasjon'),
+('Aker Brygge Stasjon'),
+('Majorstuen Stasjon');
+
+INSERT INTO laas (stasjon_id, status)
+SELECT
+    s.stasjon_id,
+    TRUE
+FROM  stasjon s
+CROSS JOIN generate_series(1,20);
+
+INSERT INTO utleie (kunde_id, sykkel_id, utlevert_stasjon_id, utlevert_tid, innlevert_tid, innlevert_stasjon_id, belop)
+SELECT
+    (1 + floor(random()*5))::int,
+    (1 + floor(random()*100))::int,
+    (1 + floor(random()*5))::int,
+            CURRENT_TIMESTAMP - (random() * interval '30 days'),
+    CURRENT_TIMESTAMP,
+    (1 + floor(random()*5))::int,
+    round((random()*100)::numeric, 2)
+FROM generate_series(1, 50);
 
 -- Eventuelt: Opprett indekser for ytelse
 
