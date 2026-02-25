@@ -35,27 +35,28 @@ Utleie: utleie_id, kunde_id, sykkel_id, utlevert_id, utlevert_tid, innlevert_tid
 **Valgte datatyper og begrunnelser:**
 
 `Kunde:`
-int kunde_id, varchar(15) mobilnummer, varchar(50) fornavn, varchar(50) etternavn, varchar(100) epost.
-Jeg har brukt varchar fordi teksten varierer i lengde fra kunde til kunde og int for id da det er
-effektivt og egner seg for primær- og fremmednøkler.
+SERIAL kunde_id, varchar(15) mobilnummer, varchar(50) fornavn, varchar(50) etternavn, varchar(100) epost.
+Jeg har brukt varchar fordi teksten varierer i lengde fra kunde til kunde og SERIAL for kudne_id slik at den genereres automatisk
+av databasen, dette reduserer risiko for duplikater.
 
 `Sykkel:`
-int sykkel_id, boolean status. Int for id da det er effektivt og egner seg for primær- og fremmednøkler.
-Bruker boolean for status på sykkel fordi vi kun trenger to tilstander tilgjengelig (true) og ikke tilgjenglig (false)
+SERIAL sykkel_id, boolean status. Jeg har valgt SERIAL for sykkel_id slik at den genereres automatisk
+av databasen, dette reduserer risiko for duplikater. Bruker boolean for status på sykkel fordi vi kun trenger to tilstander tilgjengelig (true) og ikke tilgjenglig (false)
 
 `Stasjon:`
-int stasjon_id, varchar(100) adresse. Jeg har brukt int for id fordi det er effektivt og egner seg som primær- og
-fremmednøkkel. Bruker varchar for adresse fordi lengden varierer og feltet er tekst
+SERIAL stasjon_id, varchar(100) adresse. Jeg har brukt SERIAL for stasjon_id slik at den genereres automatisk
+av databasen, dette reduserer risiko for duplikater. Bruker varchar for adresse fordi lengden varierer og feltet er tekst
 
 `Lås:`
-int lås_id, int stasjon_id, boolean status. Jeg har brukt int for ID-er fordi det er effektivt og egner seg som
-primær- og fremmednøkler. Bruker boolean for status fordi vi kun trenger to tilstander låst (true) og åpen/ulåst (false)
+SERIAL lås_id, int stasjon_id, boolean status. Jeg har brukt SERIAL for lås_id slik at den genereres automatisk
+av databasen, dette reduserer risiko for duplikater. Bruker int for stasjon_id da dette er en fremmenøkkel som peker stasjon_id.
+Bruker boolean for status fordi vi kun trenger to tilstander låst (true) og åpen/ulåst (false)
 
 `Utleie:`
-int utleie_id, int kunde_id, int sykkel_id, int utlevert_id, timestamp utlevert_tid
-timestamp innlevert_tid, int innlevert_stasjon_id, numeric(10,2) beløp. 
-Bruker int for ID-er fordi det er effektivt og egner seg som primær- og fremmednøkler. Timestamp egner seg bra for ulevert
-tid og innlevert tid fordi vi må måle tidsintervallet. Bruker numeric for beløp de dette gir presise bereginger av tall
+SERIAL utleie_id, int kunde_id, int sykkel_id, int utlevert_id, timestamp utlevert_tid
+timestamp innlevert_tid, int innlevert_stasjon_id, numeric(10,2) beløp.
+Bruker SERIAL for utleie_id slik at den genereres automatisk av databasen, dette reduserer risiko for duplikater. Bruker int for de andre ID-ene da de peker på sine tilsvarende ID-er i andre tabeller.
+Timestamp egner seg bra for utlevert tid og innlevert tid fordi vi må måle tidsintervallet. Bruker numeric for beløp de dette gir presise bereginger av tall
 satt 10 for totalt antall siffer og 2 for antall siffer etter komma. Numeric hindrer avrundingsfeil som kan skje ved bruk av float f.eks.
 
 **`CHECK`-constraints:**
@@ -84,7 +85,7 @@ CHECK (
 
 **ER-diagram:**
 
-![ER_diagram1.png](ER_diagram1.png)
+![img.png](ER_diagram1.2.png)
 ---
 
 ### Oppgave 1.3: Primærnøkler
@@ -125,7 +126,7 @@ lokasjon da slipper vi å måtte endre på hele nøkkelstrukturen
 
 **Oppdatert ER-diagram:**
 
-![ER_diagram2.png](ER_diagram2.png)
+![img.png](ER_diagram2.2.png)
 ---
 
 ### Oppgave 1.4: Forhold og fremmednøkler
@@ -153,7 +154,7 @@ I tabellen ```utleie``` har jeg følgende fremmednøkler:
 en kunde kan ha mange utleier, men hver utleie tilhører bare en kunde.
 
 ``sykkel_id`` REFERENCES ``sykkel(sykkel_id``. Da kobler man hver utleie til en sykkel. Dette implementerer forholdet en sykkel
-kan ha mange utlier over tid.
+kan ha mange utleier over tid.
 
 ``utlevert_stasjon_id `` REFERENCES ``stasjon(stasjon_id)``. Dette kobler utleien til stasjonen der den startet. Her implementerer
 man forhldet for stasjon - utleie for startstasjon.
@@ -168,7 +169,7 @@ stasjon kan ha mange låser, men en lås tilhører bare en stasjon
 
 **Oppdatert ER-diagram:**
 
-![ER_diagram3.png](ER_diagram3.png)
+![img.png](ER_diagram3.2.png)
 
 ---
 
