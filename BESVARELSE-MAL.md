@@ -242,7 +242,102 @@ Bekrefter at jeg har lagt inn SQL-skriptet i `init-scripts/01-init-database.sql`
 
 **Dokumentasjon av vellykket kjøring:**
 
-[Skriv ditt svar her - f.eks. skjermbilder eller output fra terminalen som viser at databasen ble opprettet uten feil]
+```
+PS C:\Users\brede\Documents\2.semester\DATA1500\oblig1\data1500-oblig-01> docker-compose up
+[+] up 3/3
+ ✔ Network data1500-oblig-01_data1500-network     Created                                                           0.1s
+ ✔ Volume data1500-oblig-01_postgres_data_oblig_1 Created                                                           0.0s
+ ✔ Container data1500-postgres                    Created                                                           0.4s
+Attaching to data1500-postgres
+data1500-postgres  | The files belonging to this database system will be owned by user "postgres".
+data1500-postgres  | This user must also own the server process.
+data1500-postgres  |
+data1500-postgres  | The database cluster will be initialized with locale "en_US.utf8".
+data1500-postgres  | The default database encoding has accordingly been set to "UTF8".
+data1500-postgres  | The default text search configuration will be set to "english".
+data1500-postgres  |
+data1500-postgres  | Data page checksums are disabled.
+data1500-postgres  |
+data1500-postgres  | fixing permissions on existing directory /var/lib/postgresql/data/pgdata ... ok
+data1500-postgres  | creating subdirectories ... ok
+data1500-postgres  | selecting dynamic shared memory implementation ... posix
+data1500-postgres  | selecting default max_connections ... 100
+data1500-postgres  | selecting default shared_buffers ... 128MB
+data1500-postgres  | selecting default time zone ... UTC
+data1500-postgres  | creating configuration files ... ok
+data1500-postgres  | running bootstrap script ... ok
+data1500-postgres  | sh: locale: not found
+data1500-postgres  | 2026-02-25 12:08:30.490 UTC [37] WARNING:  no usable system locales were found
+data1500-postgres  | performing post-bootstrap initialization ... ok
+data1500-postgres  | syncing data to disk ... ok
+data1500-postgres  |
+data1500-postgres  |
+data1500-postgres  | Success. You can now start the database server using:
+data1500-postgres  |
+data1500-postgres  |     pg_ctl -D /var/lib/postgresql/data/pgdata -l logfile start
+data1500-postgres  |
+data1500-postgres  | initdb: warning: enabling "trust" authentication for local connections
+data1500-postgres  | initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+data1500-postgres  | waiting for server to start....2026-02-25 12:08:32.500 UTC [43] LOG:  starting PostgreSQL 15.15 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+data1500-postgres  | 2026-02-25 12:08:32.505 UTC [43] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+data1500-postgres  | 2026-02-25 12:08:32.527 UTC [46] LOG:  database system was shut down at 2026-02-25 12:08:31 UTC
+data1500-postgres  | 2026-02-25 12:08:32.544 UTC [43] LOG:  database system is ready to accept connections
+data1500-postgres  |  done
+data1500-postgres  | server started
+data1500-postgres  | CREATE DATABASE
+data1500-postgres  |
+data1500-postgres  |
+data1500-postgres  | /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/01-init-database.sql
+data1500-postgres  | psql:/docker-entrypoint-initdb.d/01-init-database.sql:7: NOTICE:  table "utleie" does not exist, skipping
+data1500-postgres  | DROP TABLE
+data1500-postgres  | DROP TABLE
+data1500-postgres  | psql:/docker-entrypoint-initdb.d/01-init-database.sql:8: NOTICE:  table "laas" does not exist, skipping
+data1500-postgres  | DROP TABLE
+data1500-postgres  | psql:/docker-entrypoint-initdb.d/01-init-database.sql:9: NOTICE:  table "sykkel" does not exist, skipping
+data1500-postgres  | DROP TABLE
+data1500-postgres  | psql:/docker-entrypoint-initdb.d/01-init-database.sql:10: NOTICE:  table "stasjon" does not exist, skipping
+data1500-postgres  | psql:/docker-entrypoint-initdb.d/01-init-database.sql:11: NOTICE:  table "kunde" does not exist, skipping
+data1500-postgres  | DROP TABLE
+data1500-postgres  | CREATE TABLE
+data1500-postgres  | CREATE TABLE
+data1500-postgres  | CREATE TABLE
+data1500-postgres  | CREATE TABLE
+data1500-postgres  | CREATE TABLE
+data1500-postgres  | INSERT 0 5
+data1500-postgres  | INSERT 0 100
+data1500-postgres  | INSERT 0 5
+data1500-postgres  | INSERT 0 100
+data1500-postgres  | INSERT 0 50
+data1500-postgres  |          status
+data1500-postgres  | ------------------------
+data1500-postgres  |  Database initialisert!
+data1500-postgres  | (1 row)
+data1500-postgres  |
+data1500-postgres  |
+data1500-postgres  |
+data1500-postgres  | waiting for server to shut down...2026-02-25 12:08:33.114 UTC [43] LOG:  received fast shutdown request
+data1500-postgres  | .2026-02-25 12:08:33.119 UTC [43] LOG:  aborting any active transactions
+data1500-postgres  | 2026-02-25 12:08:33.126 UTC [43] LOG:  background worker "logical replication launcher" (PID 49) exited with exit code 1
+data1500-postgres  | 2026-02-25 12:08:33.130 UTC [44] LOG:  shutting down
+data1500-postgres  | 2026-02-25 12:08:33.137 UTC [44] LOG:  checkpoint starting: shutdown immediate
+data1500-postgres  | 2026-02-25 12:08:33.410 UTC [44] LOG:  checkpoint complete: wrote 959 buffers (5.9%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.058 s, sync=0.196 s, total=0.280 s; sync files=320, longest=0.007 s, average=0.001 s; distance=4395 kB, estimate=4395 kB
+data1500-postgres  | 2026-02-25 12:08:33.438 UTC [43] LOG:  database system is shut down
+data1500-postgres  |  done
+data1500-postgres  | server stopped
+data1500-postgres  |
+data1500-postgres  | PostgreSQL init process complete; ready for start up.
+data1500-postgres  |
+data1500-postgres  | 2026-02-25 12:08:33.594 UTC [1] LOG:  starting PostgreSQL 15.15 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+data1500-postgres  | 2026-02-25 12:08:33.594 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+data1500-postgres  | 2026-02-25 12:08:33.594 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+data1500-postgres  | 2026-02-25 12:08:33.604 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+data1500-postgres  | 2026-02-25 12:08:33.620 UTC [61] LOG:  database system was shut down at 2026-02-25 12:08:33 UTC
+data1500-postgres  | 2026-02-25 12:08:33.641 UTC [1] LOG:  database system is ready to accept connections
+data1500-postgres  | 2026-02-25 12:13:33.657 UTC [59] LOG:  checkpoint starting: time
+data1500-postgres  | 2026-02-25 12:13:37.753 UTC [59] LOG:  checkpoint complete: wrote 43 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=4.036 s, sync=0.029 s, total=4.108 s; sync files=17, longest=0.017 s, average=0.002 s; distance=173 kB, estimate=173 kB
+data1500-postgres  | 2026-02-25 12:16:29.343 UTC [430] FATAL:  role "postgres" does not exist
+
+```
 
 **Spørring mot systemkatalogen:**
 
@@ -256,9 +351,7 @@ ORDER BY table_name;
 
 **Resultat:**
 
-```
-[Skriv resultatet av spørringen her - list opp alle tabellene som ble opprettet]
-```
+![img_1.png](SQL_spørring.png)
 
 ---
 

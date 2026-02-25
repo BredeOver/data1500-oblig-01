@@ -32,7 +32,7 @@ CREATE TABLE stasjon (
     addresse VARCHAR(100) NOT NULL,
 
     CONSTRAINT check_stasjon
-        CHECK (length(trim(sted)) > 0)
+        CHECK (length(trim(addresse)) > 0)
 );
 
 CREATE TABLE sykkel (
