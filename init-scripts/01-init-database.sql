@@ -31,6 +31,7 @@ CREATE TABLE stasjon (
     stasjon_id SERIAL PRIMARY KEY,
     addresse VARCHAR(100) NOT NULL,
 
+
     CONSTRAINT check_stasjon
         CHECK (length(trim(addresse)) > 0)
 );
@@ -74,10 +75,6 @@ CREATE TABLE utleie (
 
 
 -- Sett inn testdata
-
-
-
--- DBA setninger (rolle: kunde, bruker: kunde_1)
 INSERT INTO kunde (mobilnummer, fornavn, etternavn, epost)
 SELECT
     (90000000 + gs)::text,
@@ -91,18 +88,18 @@ SELECT TRUE
 FROM generate_series(1, 100);
 
 INSERT INTO stasjon (addresse) VALUES
-('Sentrum Stasjon'),
-('Universitetet Stasjon'),
-('Grünerløkka Stasjon'),
-('Aker Brygge Stasjon'),
-('Majorstuen Stasjon');
+                                   ('Karl Johans gate 1 Oslo'),
+                                   ('Blindern Oslo'),
+                                   ('Thorvald Meyers gate 10 Oslo'),
+                                   ('Stranden 1 Oslo'),
+                                   ('Bogstadveien 50 Oslo');
 
 INSERT INTO laas (stasjon_id, status)
 SELECT
     s.stasjon_id,
     TRUE
 FROM  stasjon s
-CROSS JOIN generate_series(1,20);
+          CROSS JOIN generate_series(1,20);
 
 INSERT INTO utleie (kunde_id, sykkel_id, utlevert_stasjon_id, utlevert_tid, innlevert_tid, innlevert_stasjon_id, belop)
 SELECT
@@ -114,6 +111,33 @@ SELECT
     (1 + floor(random()*5))::int,
     round((random()*100)::numeric, 2)
 FROM generate_series(1, 50);
+
+-- DBA setninger (rolle: kunde, bruker: kunde_1)
+-- Oppretter roller og brukere
+CREATE ROLE kunde;
+
+CREATE USER kunde_1 WITH PASSWORD 'kunde123';
+GRANT kunde TO kunde_1;
+
+GRANT USAGE ON SCHEMA public TO kunde;
+
+GRANT SELECT ON TABLE
+    kunde,
+    sykkel,
+    stasjon,
+    laas,
+    utleie
+    TO kunde;
+
+--VIEW
+CREATE VIEW mine_utleier AS
+SELECT u.*
+FROM utleie u
+JOIN kunde k on u.kunde_id = k.kunde_id
+WHERE k.epost = CURRENT_USER;
+
+--GRANT/REWOKE
+GRANT SELECT ON mine_utleier TO kunde;
 
 -- Eventuelt: Opprett indekser for ytelse
 

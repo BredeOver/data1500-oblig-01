@@ -393,12 +393,23 @@ TO kunde;
 **SQL for VIEW:**
 
 ```sql
-[Skriv din SQL-kode for VIEW her]
+--VIEW
+CREATE VIEW mine_utleier AS
+SELECT u.*
+FROM utleie u
+         JOIN kunde k on u.kunde_id = k.kunde_id
+WHERE k.epost = CURRENT_USER;
+
+--GRANT/REWOKE
+GRANT SELECT ON mine_utleier TO kunde;
 ```
 
 **Ulempe med VIEW vs. POLICIES:**
 
-[Skriv ditt svar her - diskuter minst én ulempe med å bruke VIEW for autorisasjon sammenlignet med POLICIES]
+En view er kun en lagret SELECT-spørring og man får ikke rad nivå sikkerhet.
+Her kan en bruker i verste fall få direkte tilgang til tabellen og kan unngå view-en.
+En POLICY derimot håndheves direkte på tabellene og gjelder for alle operasjoner som SELECT, INSERT, UPDATE og DELETE.
+POLICY gir derfor en mer robust og sikker autorisasjonsmekanisme.
 
 ---
 
