@@ -425,15 +425,87 @@ POLICY gir derfor en mer robust og sikker autorisasjonsmekanisme.
 
 **Totalt antall utleier per år:**
 
-[Skriv din utregning her]
+Høysesong: 5 x 20_000 = 100_000
+
+Mellomsesong: 4 x 5000 = 20_000
+
+Lavsesong: 3 x 500 = 1500
+
+Totalt for året: 100_000 + 20_000 + 1500 = 121_500 
 
 **Estimat for lagringskapasitet:**
 
-[Skriv din utregning her - vis hvordan du har beregnet lagringskapasiteten for hver tabell]
+**Lagring strørrelser for de ulike data-typene:**
+- serial = 4 bytes
+- int = 4 bytes
+- boolean = 1 byte
+- timestamp = 8 bytes
+- numeric = 9 bytes
+
+**rad-header og overhead**
+- Vi må legge på en rad-header for alle tabellene. Den interne rad-headeren er en lavnivåstruktur som brukes av databasen for å håndtere data.
+  Den opptar vanligvis 23 byte på de fleste maskiner. Denne headeren inneholder viktig metadata.
+- Vi må også legge til 20% for indekser og generell lagrings-overhead
+
+**Utleie**
+- utleie_id 4 bytes, kunde_id 4 bytes, sykkel_id 4 bytes, utlevert_id 4 bytes,
+utlevert_tid 8 bytes, innlevert_tid 8 bytes, innlevert_stasjon_id 4 bytes og beløp 9 bytes
+- Sum: 4 + 4 + 4 + 8 + 8 + 4 + 9 = 41 bytes
+- rad-header: 41 + 23 = 64 bytes = 70 rundet opp
+- overhead +20% : 70 x 1.2 = 84 bytes  
+- Årlig lagring:
+  - 121500 utleier x 84 = 10 206 000 bytes = 10.2 MB
+
+**Kunde**
+- Cirka gjennomsnittlig lengder:
+  - mobilnummer 9 tegn
+  - fornavn 8 tegn
+  - etternavn 12 tegn
+  - epost 30 tegn
+- Per rad
+  - kunde_id 4 bytes
+  - mobilnummer 4 bytes + 9 = 13 bytes
+  - fornavn 4 + 8 = 12 bytes
+  - etternavn 4 + 12 = 16 bytes
+  - epost 4 + 30 = 34 bytes
+- Sum: 4 + 13 + 12 + 16 + 34 = 79 bytes
+- rad-header: 79 + 23 = 102 bytes = 105 bytes avrundet
+- overhead +20%: 105 x 1.2 = 126 bytes
+- Årlig lagring:
+  - Antar 10 000 kunder x 126 = 1 260 000 bytes = 1.26 MB
+
+**Sykkel**
+- Per rad
+  - sykkel_id 4 bytes
+  - status 1 byte
+- Sum: 4 + 1 = 5 bytes
+- rad-header: 5 + 23 = 28 bytes = 30 bytes avrundet
+- overhead: 30 x 1.2 = 36 bytes
+- Årlig lagring: 100 sykler x 36 = 3600 bytes = 0.004 MB
+
+**Stasjon**
+- Cirka gjennomsnitt lengder:
+  - adresse 20 tegn
+- Per rad
+  - stasjon_id 4 bytes
+  - adresse 4 + 20 = 24 bytes
+- Sum: 4 + 23 = 27 bytes
+- rad-header: 27 + 23 = 50 bytes
+- overhead: 50 x 1.2 = 60 bytes
+- Årlig lagring: 5 stasjoner x 60 = 300 bytes = 0.0003 MB
+
+**Lås**
+- Per rad
+  - lås_id 4 bytes
+  - stasjon_id 4 bytes
+  - status 1 byte
+- Sum: 4 + 4 + 1 = 9 bytes
+- rad-header: 9 + 23 = 32 bytes = 35 bytes avrundet
+- overhead: 100 låser x 35 = 3500 bytes = 0.004 MB
 
 **Totalt for første år:**
 
-[Skriv ditt estimat her]
+10.2 MB + 1.26 MB + 0.004 MB + 0.0003 MB + 0.004 MB = 11,4683 = 11,5 MB avrundet
 
 ---
 
