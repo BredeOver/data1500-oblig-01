@@ -515,31 +515,72 @@ utlevert_tid 8 bytes, innlevert_tid 8 bytes, innlevert_stasjon_id 4 bytes og bel
 
 **Problem 1: Redundans**
 
-[Skriv ditt svar her - gi konkrete eksempler fra CSV-filen som viser redundans]
+Redundans betyr duplisering av data, samme informasjon gjentas flere ganger. For eksempel Ole,Hansen,+4791234567,ole.hansen@example.com
+forekommer 3 ganger i filen. Det betyr at navn, mobilnummer og epost lagres på nytt for hver utleie. Det fører til
+undøvendig lagringbruk og kan gi økt risiko for feil.
 
 **Problem 2: Inkonsistens**
 
-[Skriv ditt svar her - forklar hvordan redundans kan føre til inkonsistens med eksempler]
+Redundans kan føre til inkosistens, hvis vi ser på samme eksempel (Ole,Hansen,+4791234567,ole.hansen@example.com) som
+forekommer 3 ganger i filen. Med denne type fil og du må endre en verdi ett sted, må den endres overalt. F.eks. hvis Ole bytter email må alle
+rader der Ole forekommer oppdateres, hvis en rad ikke blir oppdatert da blir databasen inkonsistens.
 
 **Problem 3: Oppdateringsanomalier**
 
-[Skriv ditt svar her - diskuter slette-, innsettings- og oppdateringsanomalier]
+Hvis vi for eksempel måtte endre adressen til Grünerløkka Stasjon må den oppdateres i alle rader der den forekommer. Hvis en rad glemmes blir dataen inkosistente.
+Skulle vi trenge en ny stasjon som enda ikke har hatt utleier kan vi ikke lagre en uten å lage en "falsk" utleie. Så her oppstår det problemer med innsettingsanomalier
+ved bruk av csv fil. Det oppstår også problemer skulle vi ønske å slette den siste utleien til kunden, da vi også all informasjon om kunden også slettes.
 
 **Fordeler med en indeks:**
 
 [Skriv ditt svar her - forklar hvorfor en indeks ville gjort spørringen mer effektiv]
+Skulle vi for eksempel finne alle utleier for en spesifikk sykkel. Uten indekser må databasen lete igjennom hele filen rad for rad og sammenlligne hver verdi.
+Hadde vi hatt 1 million rader så må databasen lete igjennom alle de og det ville tatt lang tid. Med indekser så kunne vi hatt indeks på sykkel_id og sette opp
+databasen med en B-tre struktur så kan den hoppe direkte til riktige rader uten å måtte lese hele tabellen. Dette sparer masse tid og gjør databasen
+mer konsistent og effektiv.
 
 **Case 1: Indeks passer i RAM**
-
-[Skriv ditt svar her - forklar hvordan indeksen fungerer når den passer i minnet]
+Når hele indeksen får plass i RAM da kan databasen holde hele indeksstrukturen i minnet. Det betyr at oppslag skjer uten disk-aksesser i selve indeksen, kun
+selve dataposten må evt hentes fra disk. Navigeringen i indeksen går også svært rask. Resultatet blir en svært effektiv søkeprosess,
+lav responstid og minimal diskbelasting.
 
 **Case 2: Indeks passer ikke i RAM**
 
-[Skriv ditt svar her - forklar hvordan flettesortering kan brukes]
+Når indeksen er  større enn tilgjengelig minne så må deler  av indeksen leses fra disk og flere disk-blokkaksesser kreves. Dette øker
+kostnaden fordi disk er mye tregere enn RAM. Flettesortering kan brukes når datasettet  er for stort til å sorteres i minnet. Da kan man
+bruke en ekstern flettesortering. Det en flettesortering gjør er at den:
+
+- Leser så mange rader som det er plass til i RAM
+- Sorterer dem i minnet
+- Skriver dem tilbake til disk som sortert run
+- Gjentar dette til hele datasettet er delt opp i sorterte runs
+- Så fletter den de sorterte runene i flere omganger
 
 **Datastrukturer i DBMS:**
 
 [Skriv ditt svar her - diskuter B+-tre og hash-indekser]
+
+B+-tre er standardindeksen i de fleste relasjonsdatabaser. Egenskapene til B+-tre er:
+- Balansert tre
+- Alle søk går like dypt
+- Bladnoder er koblet sammen noe som er bra for intervallsøk
+- Effektiv for både likhets- og intervallspørringer
+
+Fordelene med med B+-tre er at den gir en stabil ytelse, fungrer godt på disk blokkplassert og logaritmisk søketid.
+
+Hash-indekser bruker en hash-funksjon:
+
+``hash(nøkkel) = bøtte``
+
+Fordeler med dette er at det går ekstremt raskt å få eksakte oppslag i databasen og gir en konstant gjennomsittelig tidbruk på disse søkene.
+
+Ulemper:
+- Fungerer dårlig for intervallsøk
+- Ingen sortert struktur
+
+Brukes når:
+- Man kun gjør eksakte likhetssøk
+- Det er ingen behov for sortering eller range queries
 
 ---
 
