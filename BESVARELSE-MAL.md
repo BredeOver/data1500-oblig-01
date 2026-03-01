@@ -633,23 +633,59 @@ Dette gir balansert ytelse, selv om strukturen primært er optimalisert for skri
 
 **Hvor bør validering gjøres:**
 
-[Skriv ditt svar her - argumenter for validering i ett eller flere lag]
+Det er hensiktmessig å validere i flere lag:
+1. Nettleser - for rask feedback og bedre brukeropplevelse
+2. Applikasjonen - hovedvalideringen gjøres her
+3. Databasen - siste typ sikkerhetsnett med constraints for dataintergitet
+
+Grunnen til at man burde validere i flere lag er at man aldri kan stole på at input fra klienten kan manipuleres.
+Dtabasen må alltid  beskyttes mot ugyldige eller inkonsistente data.
 
 **Validering i nettleseren:**
 
-[Skriv ditt svar her - diskuter fordeler og ulemper]
+Fordeler:
+- Umiddelbar tilbakemelding f.eks ugyldig epost før du trykker send
+- Færre unødvendige kall til serveren
+- Bra for required-felt, format-sjekk, passordstyrke osv.
+
+Ulemper:
+- Ikke å stole på for sikkerhet fordi brukeren kan omgå JS/HTML-valideringen
+- Kan bli inkosistent hvis reglene ikke matcher 100% med backend
 
 **Validering i applikasjonslaget:**
 
-[Skriv ditt svar her - diskuter fordeler og ulemper]
+Dette er den viktigste valideringen, fordi backend er kontrollert av oss og ikke
+brukeren og kan derfor ikke omgås på samme måte.
+
+Fordeler:
+- Samler valideringslogikk ett sted (API-et) → samme regler for web, mobil, osv.
+- Kan implementere forretningsregler:
+  - “E-post må være unik”
+  - “Mobilnummer må ha riktig landskode”
+  - “Kunde må være over X år” (hvis relevant)
+- Kan gi gode feilmeldinger tilbake til klienten
+
+Ulemper:
+- Litt mer arbeid med implementere ordentlig
+- Krever ofte databaseoppslag f.eks. sjekke ulikhet
 
 **Validering i databasen:**
 
-[Skriv ditt svar her - diskuter fordeler og ulemper]
+Fordeler:
+- Garanterer datakvalitet uansett hvilken app som skriver til databasen
+- Forhindrer inkonsistents selv hvis en bug slipper igjennom backend
+- Best egnet for dataintegritet via f.eks. NOT NULL, UNIQUE osv.
+
+Ulemper:
+- Mindre fleksible og ofte mindre brukervennelige feilmeldinger
+- Forretingslogikk i databasen kan gjøre systemet vanskeligere å vedlikeholde
+- Validering som krever kompleks logikk passer bedre i applikasjonslaget
 
 **Konklusjon:**
 
-[Skriv ditt svar her - oppsummer hvor validering bør gjøres og hvorfor]
+For å konkludere så bør valideringen gjøres i alle lag, men med ulik rolle. I nettleseren bør det være en rask og brukervennelig sjekk.
+I applikasjonslaget så bør hovedvalideringen foregå med fokus på sikkerhet. I databasen så har man den siste sikkerheten for dataintegritet med constraints.
+Dette gjør at man får best mulig sikkerhet og robust datakvalitet.
 
 ---
 
