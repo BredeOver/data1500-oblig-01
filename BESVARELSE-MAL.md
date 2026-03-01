@@ -589,16 +589,43 @@ Brukes når:
 **Foreslått datastruktur:**
 
 [Skriv ditt svar her - f.eks. heap-fil, LSM-tree, eller annen egnet datastruktur]
+Logging består hovedsakelig av:
+- Mange skriveoperasjoner (kontinuerlig)
+- Sjeldne leseoperasjoner (feilsøking, revisjon, analyse)
+
+Derfor bør vi velge en datastruktur som er optimalisert for sekvensielle append-operasjoner.
+LSM-tree er godt egnet til det.
+
+LSM-tree fungerer sånn her:
+1. Nye hendelser skrives først til en in-memory struktur (MemTable)
+2. Når minnet fylles opp, så flyttes data sekvensielt til disk
+3. Data lagres i sorterte segmenter (SSTables)
+4. Segmenter flettes periodisk (compaction)
+
+Logging leses vanligvis:
+- Ved feilsøking
+- Ved revisjon (audit)
+- Ved analyse
+
+LSM-tree håndterer dette ved å slå opp i MemTable, deretter søke i relevante SSTables. Så bruke Bloom-filters for å unngå unødvendige disklesinger.
+Lesingen er noe tregere enn i en ren B+-tre-struktur, men siden logging har langt flere skrive-operasjoner enn lese-operasjoner, er dette en akseptabel trade-off.
 
 **Begrunnelse:**
 
 **Skrive-operasjoner:**
 
-[Skriv ditt svar her - forklar hvorfor datastrukturen er egnet for mange skrive-operasjoner]
+Datastrukturen er egnet for mange skriveoperasjoner fordi den skriver først i raskt minne, så utfører den sekvensielle diskoperasjoner.
+Den Minimerer tilfeldig disk I/O og har lav kostnad per innsetting. Dette gir raske skirve-operasjoner og gjør den ideell for loggsystemer.
 
 **Lese-operasjoner:**
 
-[Skriv ditt svar her - forklar hvordan datastrukturen håndterer sjeldne lese-operasjoner]
+Datastrukturen håndterer sjeldne leseoperasjoner ved å:
+1. Søke først i RAM
+2. Deretter i sorterte disksegmenter
+3. Bruke Bloom-filters for å redusere disk I/O
+4. Flette segmenter for bedre ytelse over tid
+
+Dette gir balansert ytelse, selv om strukturen primært er optimalisert for skriving.
 
 ---
 
